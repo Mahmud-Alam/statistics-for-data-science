@@ -42,9 +42,11 @@ chi_square=0
 print()
 for i in range(0,row):
     for j in range(0,col):
-        chi_square+=(((obs[i][j]-expt[i][j])**2)/expt[i][j])
+        chi = (((obs[i][j]-expt[i][j])**2)/expt[i][j])
+        chi_square+=chi
+        print(chi)
 
-print('Chi-Square :',round(chi_square,5))
+print('\nChi-Square :',round(chi_square,6))
 
 #%%
 
