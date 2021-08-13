@@ -1,22 +1,26 @@
 import math as m
 
 # Function for exact Probability
-def exact_probability(n,x,p):
+def binomial_exact_probability(n,x,p):
     prob = (m.factorial(n)/(m.factorial(x)*m.factorial(n-x)))*(p**x)*((1-p)**(n-x))
     return prob
 
 # Function for AT Least Probability (greater than or equal to the value)
-def at_least_probability(n,x,p):
+def binomial_at_least_probability(n,x,p):
     prob = 0
     for i in range(int(x),int(n+1)):
-        prob+=((m.factorial(n)/(m.factorial(i)*m.factorial(n-i)))*(p**i)*((1-p)**(n-i)))
+        Val = (m.factorial(n)/(m.factorial(i)*m.factorial(n-i)))*(p**i)*((1-p)**(n-i))
+        prob+=Val
+        print(i,' prob :',round(Val,5))
     return prob
 
 # Function for AT Most Probability (Till the value)
-def at_most_probability(n,x,p):
+def binomial_at_most_probability(n,x,p):
     prob = 0
     for i in range(int(x+1),int(n+1)):
-        prob+=(m.factorial(n)/(m.factorial(i)*m.factorial(n-i)))*(p**i)*((1-p)**(n-i))
+        Val = ((m.factorial(n)/(m.factorial(i)*m.factorial(n-i)))*(p**i)*((1-p)**(n-i)))
+        prob+=Val
+        print(i,' prob :',round(Val,5))
     final_prob = 1-prob
     return final_prob
     
@@ -30,25 +34,25 @@ p = float(input('Probability in % value (p) : '))/100
 mean = n*p
 variance = n*p*(1-p)
 
-print('\nMean :',round(mean,6))
-print('Variance :',round(variance,6))
+print('\nMean :',round(mean,5))
+print('Variance :',round(variance,5))
 
 #%%
 
 # Code for Exact Probability
-prob = exact_probability(n, x, p)
-print('\nExact Probability :',round(prob,6))
+prob = binomial_exact_probability(n, x, p)
+print('\nExact Probability :',round(prob,5))
 
 #%%
 
 # Code for AT Least Probability (greater than or equal to the value)
-prob = at_least_probability(n, x, p)
-print('\nAt Least Probability :',round(prob,6))
+prob = binomial_at_least_probability(n, x, p)
+print('\nAt Least Probability :',round(prob,5))
 
 #%%
 
 # Code for AT Most Probability (Till the value)
-prob = at_most_probability(n, x, p)
-print('\nAt Most Probability :',round(prob,6))
+prob = binomial_at_most_probability(n, x, p)
+print('\nAt Most Probability :',round(prob,5))
 
 
