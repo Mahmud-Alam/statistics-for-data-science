@@ -4,29 +4,71 @@ import matplotlib.gridspec as gridspec
 
 #%%
 
-df = pd.read_csv('german-data.csv',header=None)
-df.columns = ['Status of existing checking account','Duration in month','Credit history','Purpose','Credit amount','Savings account/bonds','Present employment since','Installment rate in percentage of disposable income','Personal status and sex','Other debtors / guarantors','Present residence since','Property','Age in years','Other installment plans','Housing','Number of existing credits at this bank','Job','Number of people being liable to provide maintenance for','Telephone','foreign worker','Cost Matrix']
+### Categorical Data
 
-print(df.info())
+df_cat = pd.read_csv('german-data.csv',header=None)
+df_cat.columns = ['Status of existing checking account','Duration in month','Credit history','Purpose','Credit amount','Savings account/bonds','Present employment since','Installment rate in percentage of disposable income','Personal status and sex','Other debtors / guarantors','Present residence since','Property','Age in years','Other installment plans','Housing','Number of existing credits at this bank','Job','Number of people being liable to provide maintenance for','Telephone','foreign worker','Cost Matrix']
+
+print(df_cat.info())
 
 #%%
 
+### Numeric Data
+
 df_num = pd.read_csv('german-data-numeric.csv',header=None)
-df_num.columns = ['Column-01','Column-02','Column-03','Column-04','Column-05','Column-06','Column-07','Column-08','Column-09','Column-10','Column-11','Column-12','Column-13','Column-14','Column-15','Column-16','Column-17','Column-18','Column-19','Column-20','Column-21','Column-22','Column-23','Column-24','Column-25',]
+df_num.columns = ['Status of existing checking account','Duration in month','Credit history','Purpose','Credit amount','Savings account/bonds','Present employment since','Installment rate in percentage of disposable income','Personal status and sex','Other debtors / guarantors','Present residence since','Property','Age in years','Other installment plans','Housing','Number of existing credits at this bank','Job','Number of people being liable to provide maintenance for','Telephone','foreign worker','Cost Matrix','Column-22','Column-23','Column-24','Column-25',]
 
 print(df_num.info())
 
 #%%
 
-df.to_csv('updated-german-data.csv',index=False)
+df_num.to_csv('updated-german-data.csv',index=False)
 df_num.to_csv('updated-german-data-numeric.csv',index=False)
 
 #%%
+#Khaled
+#1.1 (Plot-01)
 
-job = df[['Job']]
+
+ax=df_num['Personal status and sex'].hist(color="g")
+plt.xlabel('Staus and sex',fontsize=14,color="Blue" )
+plt.ylabel('Frequency of sex gender',fontsize=14,color="Red")
+plt.xticks([1,2,3,4,5],['Male divorced','Female Divorced','Male Single','Male Married','Female single'])
+
+plt.title("Personal Status and Sex",fontsize=15,color="Cyan")
+plt.grid()
+plt.show()
+
+
+#%%
+#1.2 (Plot-02)
+
+plt.scatter(df_num['Present employment since'],df_num["Purpose"],color="r",marker='x')
+plt.xlabel("Present employment",fontsize=14,color="orange")
+plt.ylabel("Purpose",fontsize=14,color="magenta") 
+plt.title("Scatter diagram of Employeee and Purpose",fontsize=14,color="green")
+
+plt.figure()
+
+#%%
+#used it to see the corelations
+import seaborn as sns
+plt.subplots(figsize=(12, 9))
+sns.heatmap(df_num.corr(), annot = True, cmap = 'cividis')
+
+
+#%%
+
+# =============================================================================
+# Name: Md. Mahmud Alam
+# Id: 2018-3-60-014
+# 2.1 (Plot-01)
+# =============================================================================
+
+job = df_cat[['Job']]
 jobCount = job.value_counts()
 jobCount = jobCount.sort_index()
-jobTitle = sorted(df['Job'].unique())
+jobTitle = sorted(df_cat['Job'].unique())
 
 labels = ['Unemployed','Unskilled','Skilled','Highly Qualified']
 colors = ['pink','red','crimson','darkred']
@@ -34,7 +76,7 @@ colors = ['pink','red','crimson','darkred']
 plt.figure(figsize=(8,6),dpi=500)
 
 plt.subplot(2,2,1)
-percent = df['Job'].value_counts().sort_index() / df['Job'].value_counts().sum() * 100
+percent = df_cat['Job'].value_counts().sort_index() / df_cat['Job'].value_counts().sum() * 100
 plt.xticks(fontsize=7)
 plt.yticks(fontsize=7)
 plt.text(-.2, 7, '2.2%', color='darkgreen',fontsize=8)
@@ -70,7 +112,13 @@ plt.title('Job Plot Diagram',fontsize=10)
 
 #%%
 
-amount = df[['Credit amount']]
+# =============================================================================
+# Name: Md. Mahmud Alam
+# Id: 2018-3-60-014
+# 2.2 (Plot-02)
+# =============================================================================
+
+amount = df_cat[['Credit amount']]
 
 plt.figure(dpi=500)
 gs = gridspec.GridSpec(7, 7)
@@ -103,6 +151,24 @@ plt.yticks(fontsize=7)
 plt.scatter(amount.index,amount, color='red',marker='2')
 plt.title('Credit-Amount Scatter Plot',fontsize=10)
 
+
 #%%
+#Talha
+#3.1 (Plot-01)
+#Installment rate in percentage of disposable income
+
+installment = df_num['Present employment since']
+#credit = df_num['Column-04']
+#plt.boxplot(installment)
+df_num.boxplot(column = ['Present employment since'])
+
+#%%
+#3.2 (Plot-02)
+labels = ['Bank','store','none']
+other = df_cat['Other installment plans'].value_counts()
+#plot(kind='pie')
+
+fig, f = plt.subplots()
+f.pie(other, labels = labels)
 
 
