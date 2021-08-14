@@ -28,34 +28,45 @@ jobCount = job.value_counts()
 jobCount = jobCount.sort_index()
 jobTitle = sorted(df['Job'].unique())
 
-print(jobCount)
-print(jobTitle)
 labels = ['Unemployed','Unskilled','Skilled','Highly Qualified']
 colors = ['pink','red','crimson','darkred']
 
 plt.figure(figsize=(8,6),dpi=500)
 
-plt.subplot(2,2, 1)
-plt.xticks(fontsize=7)
-plt.bar(jobTitle, jobCount,tick_label = labels, edgecolor='black', color=colors)
-plt.title('Job Bar-Chart')
-
-plt.subplot(2,2, 2)
+plt.subplot(2,2,1)
 percent = df['Job'].value_counts().sort_index() / df['Job'].value_counts().sum() * 100
+plt.xticks(fontsize=7)
+plt.yticks(fontsize=7)
+plt.text(-.2, 7, '2.2%', color='darkgreen',fontsize=8)
+plt.text(.82, 25, '20%', color='darkgreen',fontsize=8)
+plt.text(1.82, 55, '63%', color='darkgreen',fontsize=8)
+plt.text(2.75, 20, '14.8%', color='darkgreen',fontsize=8)
+plt.bar(jobTitle, percent, tick_label = labels, width=1,edgecolor='darkgreen', color='lightgreen')
+plt.title('Job Histogram',fontsize=10)
+
+
+plt.subplot(2,2,2)
 plt.pie(percent, labels=labels, explode=(0, 0, 0, 0.15), autopct='%1.1f%%',startangle=10, colors=['lightgreen','orange','yellow','crimson'])
 plt.axis('equal')
-plt.title('Job Pie-Chart')
+plt.title('Job Pie-Chart',fontsize=10)
 
 
-plt.subplot(2,2, 3)
+plt.subplot(2,2,3)
 plt.xticks(fontsize=7)
-plt.bar(jobTitle, percent, tick_label = labels, width=1,edgecolor='black', color='lightgreen')
-plt.title('Job Histogram')
+plt.yticks(fontsize=7)
+plt.text(-.1, 70, '22', color='black',fontsize=8)
+plt.text(.85, 250, '200', color='black',fontsize=8)
+plt.text(1.85, 550, '630', color='black',fontsize=8)
+plt.text(2.85, 200, '148', color='black',fontsize=8)
+plt.bar(jobTitle, jobCount,tick_label = labels, edgecolor='black', color=colors)
+plt.title('Job Bar-Chart',fontsize=10)
 
-
-plt.subplot(2,2, 4)
+plt.subplot(2,2,4)
+plt.xticks(fontsize=7)
+plt.yticks(fontsize=7)
 plt.plot(labels,jobCount, 'rv--',markersize=10)
-plt.title('Job Plot Diagram')
+plt.title('Job Plot Diagram',fontsize=10)
+
 
 #%%
 
@@ -68,15 +79,30 @@ plt.subplot(gs[:3, :3])
 plt.xticks(fontsize=7)
 plt.yticks(fontsize=7)
 plt.hist(amount, bins=50,edgecolor='black', color='red')
-plt.text(7000, 70, 'median<mean', color='darkred',fontsize=8)
+plt.text(5000, 100, 'Positive Skewed Diagram', color='darkred',fontsize=7)
+plt.text(8000, 85, 'median<mean', color='red',fontsize=7)
 plt.xlabel('Amount',fontsize=8)
 plt.ylabel('Frequency',fontsize=8)
 plt.title('Credit-Amount Histogram',fontsize=10)
 
 plt.subplot(gs[:, 4:])
+plt.xticks(fontsize=7)
+plt.yticks(fontsize=7)
 plt.boxplot(amount)
 plt.title('Credit-Amount Boxplot',fontsize=10)
+plt.text(1.1, 11000, 'Outliers', color='red',fontsize=8)
+plt.text(1.12, 7600, 'Max', color='red',fontsize=8)
+plt.text(1.12, 3700, 'Q3', color='red',fontsize=8)
+plt.text(1.12, 2100, 'Median', color='red',fontsize=8)
+plt.text(1.12, 1100, 'Q1', color='red',fontsize=8)
+plt.text(1.12, 1, 'Min', color='red',fontsize=8)
 
 plt.subplot(gs[4:,:3])
+plt.xticks(fontsize=7)
+plt.yticks(fontsize=7)
 plt.scatter(amount.index,amount, color='red',marker='2')
+plt.title('Credit-Amount Scatter Plot',fontsize=10)
+
+#%%
+
 
