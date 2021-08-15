@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+import seaborn as sns
 
 #%%
 
@@ -26,9 +27,9 @@ df_num.to_csv('updated-german-data.csv',index=False)
 df_num.to_csv('updated-german-data-numeric.csv',index=False)
 
 #%%
+
 #Khaled
 #1.1 (Plot-01)
-
 
 ax=df_num['Personal status and sex'].hist(color="g")
 plt.xlabel('Staus and sex',fontsize=14,color="Blue" )
@@ -41,6 +42,8 @@ plt.show()
 
 
 #%%
+
+#Khaled
 #1.2 (Plot-02)
 
 plt.scatter(df_num['Present employment since'],df_num["Purpose"],color="r",marker='x')
@@ -51,8 +54,9 @@ plt.title("Scatter diagram of Employeee and Purpose",fontsize=14,color="green")
 plt.figure()
 
 #%%
+
 #used it to see the corelations
-import seaborn as sns
+
 plt.subplots(figsize=(12, 9))
 sns.heatmap(df_num.corr(), annot = True, cmap = 'cividis')
 
@@ -153,22 +157,24 @@ plt.title('Credit-Amount Scatter Plot',fontsize=10)
 
 
 #%%
-#Talha
-#3.1 (Plot-01)
-#Installment rate in percentage of disposable income
 
-installment = df_num['Present employment since']
-#credit = df_num['Column-04']
-#plt.boxplot(installment)
-df_num.boxplot(column = ['Present employment since'])
+#Talha 
+#3.1 (Plot-01)
+
+#Present employment since
+employment = df_num['Present employment since']
+a=df_num.boxplot(column = ['Present employment since'])
 
 #%%
+
+#Talha
 #3.2 (Plot-02)
-labels = ['Bank','store','none']
-other = df_cat['Other installment plans'].value_counts()
+
+labels = ['real estate','building society\nsavings agreement/\nlife insurance','car or other','unknown/\nno property']
+
+Property =  df_cat['Property'].value_counts()
 #plot(kind='pie')
-
 fig, f = plt.subplots()
-f.pie(other, labels = labels)
-
+plt.title("Property")
+f.pie(Property, labels = labels, autopct ='%1.2f%%' )
 
