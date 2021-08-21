@@ -1,6 +1,38 @@
 import math
 
 
+#count
+#number of non NA values
+def COUNT (List):
+    c=0    
+    for i in List:
+        if (i!=None):
+            c= c+1
+    return c
+            
+
+#describe
+def DESCRIBE (List):
+    des ={}
+    mean = MEAN(List)
+    std = STD(List)
+    Min = MIN(List)
+    q1 = QUANTILE(List,.25)
+    q2 = QUANTILE(List,.50)
+    q3 = QUANTILE(List,.75)
+    maxi = MAX(List)
+    des = {
+        "mean: " : mean,
+        "std: " : std,
+        "min: " : Min,
+        "25%: " : q1,
+        "50%: " : q2,
+        "75%: " : q3,
+        "max: " : maxi,
+        }
+    return des
+
+
 # MAX FUNCTION
 def MAX(List):
     MAX=0
@@ -10,6 +42,17 @@ def MAX(List):
     return MAX
 
 
+#INDEX OF MAX
+def ARGMAX(List):
+    count=0
+    maximum = MAX(List)
+    for j in List:
+        if(j!=maximum):
+            count = count + 1
+        else:
+            return count
+
+
 # MIN FUNCTION
 def MIN(List):
     MIN=99999
@@ -17,6 +60,169 @@ def MIN(List):
         if i<MIN:
             MIN=i
     return MIN
+
+
+#INDEX OF MIN
+def ARGMIN(List):
+    count=0
+    minimum = MIN(List)            
+    for j in List:
+        if(j!=minimum):
+            count = count + 1
+        else:
+            return count
+
+
+#index lebel at which minimum lies
+def IDX_MIN (List):
+    minimum = List[0]
+    index = 0
+    for i in range(LEN(List)):
+        if(List[i] < minimum):
+            minimum = List[i]
+            index=i
+    return index    
+
+
+#index lebel at which maximum lies
+def IDX_MAX (List):
+    maximum = List[0]
+    index = 0
+    for i in range(LEN(List)):
+        if(List[i] > maximum):
+            maximum = List[i]
+            index=i
+    return index
+
+
+def QUANTILE (List, per):
+    new_list= sorted(List)
+    n=LEN(List)
+    Q=0
+    if per>0 and per<1:
+        q = per
+        Q = int(q*(n+1))
+        return new_list[Q]
+    else:
+        print("Out of range...")
+        return None
+        
+
+def PERCENTILE(List,per):
+    x=per/100
+    return QUANTILE(List,x)        
+                
+
+def MEDIAN(List):
+    mid = QUANTILE (List, 0.5)
+    return mid
+
+
+def sort_Manual(x):
+    x = x.sort_values()
+    x.reset_index(inplace=True, drop=True)
+    return x
+
+
+# LENGTH FUNCTION
+def LEN(List):
+    n=0
+    for i in List:
+        n+=1    
+    return n
+
+
+# Statistical 
+#count
+def count_Manual(x):
+    count = 0
+    for i in x:
+        count = count+1
+    return count
+
+
+#returns scientific notation of int values
+def scientific_Method(x): 
+    if(x<1e10):
+        return x
+    sci = ""
+    st = str(x)
+    p=0
+    for i in st:  
+       sci+= i
+       if p==0:
+           sci +='.'
+       if p==6:
+           break
+       p+=1
+    sci+="e+"+str(LEN(str(x))-1)   
+    return sci
+
+
+#quantile
+def Quantile(a,x):
+    a = sort_Manual(a)
+    total = count_Manual(a)
+    index = a
+    quan = int(total*x)
+    for i in range(LEN(index)):
+        if i==quan:
+            return index[i]
+        
+
+#sum
+def Sum(a):
+    s=0
+    for i in a:
+        s+=i
+    return s
+
+
+# Mean
+def Mean(a):
+    s = Sum(a)
+    n = LEN(a)
+    return s/n;
+
+
+# median
+def Median(a):
+    a = sort_Manual(a)
+    n = LEN(a) 
+    if n&1:
+        return  a[n//2 + 1] 
+    return (a[n//2] + a[n//2 + 1])/2
+
+
+#MAD
+def Mad(arr):
+    n = LEN(arr)
+    M = Mean(arr)
+    x=0
+    for i in range(n):
+        x += abs(arr[i]-M)
+    return x/n
+
+  
+def Prod(a):
+    prod = 1
+    for i in range(LEN(a)):
+        prod *= int(a[i])
+    return scientific_Method(prod)
+
+# variance
+def Var(arr):
+    n = LEN(arr)
+    s = 0
+    for i in range(n):
+        x = (arr[i] - Mean(arr))
+        s +=  x*x
+    return s/(n-1)
+
+
+# standardDeviation
+def Std(arr):
+    return math.sqrt(Var(arr))
 
 
 # SUM FUNCTION
@@ -32,12 +238,6 @@ def SUM(List):
     return SUM
 
 
-# LENGTH FUNCTION
-def LEN(List):
-    n=0
-    for i in List:
-        n+=1    
-    return n
 
 
 # MEAN FUNCTION
@@ -200,15 +400,6 @@ def DISPERSION(List):
     return MAX(List)-MIN(List)
 
 
-# MEAN_ABSOLUTE_DEVIATION FUNCTION
-def MEAN_ABSOLUTE_DEVIATION(List):
-    xBar = MEAN(List)
-    xMinusXbar = [abs(x-xBar) for x in List]
-    total = SUM(xMinusXbar)
-    n = LEN(List)
-    return total/n
-
-
 # ZSCORE FUNCTION
 def ZSCORE(List):
     m = MEAN(List)
@@ -236,4 +427,28 @@ def CORRELATION(list1, list2):
     std1 = STD(list1)
     std2 = STD(list2)
     return round(cov/(std1*std2),4)
+
+
+#interquantile range
+def INTERQUARTILE_RANGE(a):
+    a = sort_Manual(a)
+    return Quantile(a,0.75) - Quantile(a,0.25)
+
+
+# Standard Error
+def StandardError(a):
+  se = Std(a)/math.sqrt(count_Manual(a))
+  return se
+
+#z-score
+def zscore(a,b):
+  z = (a-Mean(b))/Std(b)
+  return z
+
+
+#Confidence Interval
+def ConfidenceInterval(a,b):
+  left  = Mean(b)-zscore(a,b)*StandardError(b)
+  right = Mean(b)+zscore(a,b)*StandardError(b)
+  return str(left) + "," + str(right)
 
