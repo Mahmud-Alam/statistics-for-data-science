@@ -50,3 +50,16 @@ for i in  range(0,n):
     print('| {:7} || {:7} || {:10} || {:10} || {:10} || {:17} |'.format(setX[i],setY[i],round(xMinusXbar[i],4),round(yMinusYbar[i],4),round(xMinusXbarSqr[i],4),round(xMXbarYMYbar[i],4)))
 print('|_________||_________||____________||____________||____________||___________________|')
 
+#%%
+
+predY = [a+(b*setX[i]) for i in range(0,n)]
+residual = [abs(predY[i]-setY[i]) for i in range(0,n)]
+
+print('\nTable:')
+print('__________________________________________________')
+print('|    X    ||   Yhat  ||   pred Y   ||   residual |')
+print('|_________||_________||____________||____________|')
+for i in  range(0,n):
+    print('| {:7} || {:7} || {:10} || {:10} |'.format(setX[i],setY[i],round(predY[i],4),round(residual[i],4)))
+print('|_________||_________||____________||____________|')
+
