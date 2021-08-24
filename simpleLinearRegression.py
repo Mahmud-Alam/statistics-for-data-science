@@ -53,7 +53,7 @@ print('|_________||_________||____________||____________||____________||________
 #%%
 
 predY = [a+(b*setX[i]) for i in range(0,n)]
-residual = [abs(predY[i]-setY[i]) for i in range(0,n)]
+residual = [predY[i]-setY[i] for i in range(0,n)]
 
 print('\nTable:')
 print('__________________________________________________')
