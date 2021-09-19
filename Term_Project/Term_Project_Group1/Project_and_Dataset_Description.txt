@@ -1,0 +1,77 @@
+Student Satisfaction Survey Dataset
+
+Number of Rows: 543
+Number of Columns: 33
+
+The dataset contains data about students satisfaction on different services provided by the university.
+The columns A1-A12 contains categorical data, indicating students basic information.
+The columns IA1-IA6 contains numerical values in the range from 1-5 (1 = completely dissatified and 5 = completely satisfied) representing students satisfaction on Institutional Aspects of the university.
+The columns AA1-AA6 contains numerical values in the range from 1-5 (1 = completely dissatified and 5 = completely satisfied) representing students satisfaction on Academic Aspects of the university.
+The columns TLA1-TLA7 contains numerical values in the range from 1-5 (1 = completely dissatified and 5 = completely satisfied) representing students satisfaction on Teaching-Learning Aspects of the university.
+The column OR indicates the overall satisfaction rating (1 = minimum, 5 = maximum).
+The column satisfied has yes/no values showing whether the student is satisfied or not. 
+
+Column Description
+- Faculty (A1)
+- Age (A2)
+- Gender (A3)
+- Previous Medium of Study (A4)
+- HSC Result or Equivalent (A5)
+- SSC Result or Equivalent (A6)
+- Currently getting any Scholarship from the University (A7)
+- Currently doing any part-time job (A8)
+- Student Household (A9)
+- Monthly Family Income (A10)
+- Parents' Highest Education Level (A11)
+- Parents' Occupation (A12)
+- Peaceful environment for academic activities (IA1)
+- Proper infrastructure for academic, co-curricular and extra-curricular activities (IA2)
+- Arranging job fairs (IA3)
+- Brand image of the university (IA4)
+- Student-friendly support services (IA5)
+- Accessible and efficient IT services and help desks (IA6)
+- Appropriate course curriculum (AA1)
+- Class size suitable for interactive learning (AA2)
+– Classes and exams are held according to the schedule (AA3)
+– Alignment of evaluation methods (AA4)
+– Counselling to manage students’ stress and anxiety (AA5)
+– Sympathetic environment to students (AA6)
+– Interactive and supportive teaching-learning (TLA1)
+– Usage of modern tools, devices, software (TLA2)
+– Expertise of teachers on subject matter (TLA3)
+– Detailed lessons with examples (TLA4)
+– Appropriate assessments (TLA5)
+- Feedback on students performance (TLA6)
+– Teachers are compassionate and understanding (TLA7)
+
+Your job is listed below.
+
+1. Build regression models to predict the overall rating (OR column).
+	- You must build the models using the following approaches.
+		i. statsmodel OLS method
+		ii. linear regression using scikit-learn library (without any regularization)
+		iii. polynomial regression using scikit-learn library 
+		iv. lasso regression (L1 regularization)
+		v. ridge regression (L2 regularization)
+		vi. your own implementation using formula of linear algebra
+	- In your report and presentation, you have to compare their performance. 
+2. Build classification models to predict the class label (satisfied column)
+	- You must build classification model using the following approaches.
+		i. logistic regression using scikit-learn library
+		ii. linear SVC using scikit-learn library
+		iii. build another classification model using Backward Feature Elimination or Forward Feature Selection approach.
+	- compare the performance of the classification models.
+
+4. Show the ROC curve for the best performing classification model you have built.
+
+5. Show the correlation of the columns A1-A12 with the satisfied column. Which column is the most correlated with satisfied column? 
+	
+6. How can the university increase satisfaction level. Your answer must be supported by your analysis.
+
+Special Points:
+1. You cannot delete any rows while building the model. If there is any missing value, you need to replace them using a suitable method.
+2. Use appropriate encoding technique (LabelEncoder, OneHotEncoder) if required.
+
+
+
+
