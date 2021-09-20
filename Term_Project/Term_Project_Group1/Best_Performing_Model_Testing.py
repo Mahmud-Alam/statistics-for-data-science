@@ -164,7 +164,7 @@ Min Accuracy : 0.856353591160221
 #%%
 
 # =============================================================================
-#  Dataset-
+#  Dataset
 #  Apply Random Forest Algorithm
 # =============================================================================
 
@@ -237,34 +237,86 @@ all_sample_title = 'Accuracy Score: {0}%'.format(round(accuracyTest*100,2))
 plt.title(all_sample_title, size = 12);
 
 
+#%%
+
+# =============================================================================
+#  Work with student_satisfaction_for_testing.csv Testing Dataset
+# =============================================================================
+
+# Read Testing CSV File
+
+df_testing = pd.read_csv('student_satisfaction_for_testing.csv')
+print(df_testing.head())
+print(df_testing.shape)
+
+
+#%%
+
+# Print all the columns name
+
+print(df_testing.columns)
+
+
+#%%
+
+# Drop all unnecessary columns
+
+df_testing.drop(df_testing.iloc[:,:12],axis=1, inplace=True)
+df_testing.drop(['OR'],axis=1, inplace=True)
+
+print(df_testing)
+
+
+#%%
+
+# Check whether there is any missing value or not
+
+print(df_testing.isnull().sum())
+
+#%%
+
+# Add a Constant column B0 with value 1
+
+df_testing.insert(0,'B0',1)
+print(df_testing)
+print(df_testing.shape)
+
 
 #%%
 
 # =============================================================================
-#  ROC Curve for Random Forest 
+#  Apply Ramdom Forest Model for prediction Y_PREDICTION for Testing Dataset df_testing
 # =============================================================================
 
-# Area under the curve value calculation
-roc_auc = roc_auc_score(y_test, y_pred)
+Y_PREDICTION = RForest_model.predict(df_testing)
 
-# FPR, TPR, Threshold value valculation
-fpr, tpr, thres = roc_curve(y_test, RForest_model.predict_proba(X_test)[:,1])
-plt.figure()
-plt.plot(fpr, tpr, color='darkorange', lw=2, label='Random Forest (Area = {0}%)'.format(round(roc_auc*100,2)))
+print(Y_PREDICTION)
 
-# for Middle red -- Line 
-plt.plot([0, 1], [0, 1],'b--',lw=2)
+print(type(Y_PREDICTION))
 
-# set the x and y limit to left, right 
-plt.xlim([0.0, 1.0])
-plt.ylim([0.0, 1.05])
+Y_PREDICTION = pd.DataFrame(Y_PREDICTION)
 
-# set x and y label name 
-plt.xlabel('False Positive Rate (FPR)')
-plt.ylabel('True Positive Rate (TPR)')
-plt.title('Receiver operating characteristic (ROC Curve)')
-plt.legend(loc="lower right")
+print(type(Y_PREDICTION))
 
-# Save the ROC Curve Figure as png format
-plt.savefig('ROC_curve_fig')
-plt.show()
+print(Y_PREDICTION)
+
+
+#%%
+
+# Read sample_test_result.csv File
+
+sample = pd.read_csv('sample_test_result.csv')
+
+sample.drop(['satisfied'], axis=1, inplace=True)
+
+sample.insert(loc=len(sample.columns), column='satisfied', value=Y_PREDICTION)
+
+print(sample)
+
+
+#%%
+
+# Convert to CSV file
+
+sample.to_csv('sample_test_result.csv',index=False)
+

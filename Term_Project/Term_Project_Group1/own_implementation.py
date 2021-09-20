@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
 
@@ -129,7 +128,6 @@ print(df)
 
 # Drop all unnecessary columns
 
-#df.drop(['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12',],axis=1, inplace=True)
 df.drop(df.iloc[:,:12],axis=1, inplace=True)
 
 df.drop(['Satisfied'],axis=1, inplace=True)
@@ -141,13 +139,15 @@ print(df)
 # Add B0 column with all value 1
 
 df.insert(0,'B0',1)
-print(df.head())
+print(df)
+
 
 #%%
 
 # Check whether there is any missing value or not
 
 print(df.isnull().sum())
+
 
 #%%
 
@@ -163,11 +163,6 @@ df['TLA2'].fillna(df['TLA2'].median(skipna=True), inplace=True)
 
 print(df.isnull().sum())
 
-#%%
-
-# Check the shape of the dataset
-
-print(df.shape)
 
 #%%
 
@@ -187,14 +182,31 @@ X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=1/3, random_s
 
 #%%
 
+# Call WEIGHT_FUNCTION for calculate waeight of all columns
 
 weight = WEIGHT_FUNCTION(X_train, y_train)
 
 print(weight)
+
 #%%
 
+# Call Y_PREDICTION for predict the y value
+
 y_pred = Y_PREDICTION(weight, X_test)
-print(y_pred)
+
+Y_TEST = np.array(y_test)
+
+residual = [round(y_pred[i][0],1)-Y_TEST[i] for i in range(LEN(Y_TEST))]
+
+print('\n\033[1;33;1mY-test and Y-pred Table:')
+print('\033[1;36;1m_______________________________________________________')
+print('|                    ||                ||             |')
+print('| \033[1;33;1mY-pred(Prediction) \033[1;36;1m|| \033[1;33;1mY-test(Actual) \033[1;36;1m||   \033[1;33;1mResidual  \033[1;36;1m|')  
+print('|____________________||________________||_____________|')
+for i in  range(LEN(Y_TEST)):
+    print('| \033[1;33;1m{:18} \033[1;36;1m|| \033[1;33;1m{:14} \033[1;36;1m|| \033[1;33;1m{:11} \033[1;36;1m|'.format(round(y_pred[i][0],1),Y_TEST[i][0],round(residual[i][0],1)))
+print('|____________________||________________||_____________|\033[0m')
+
 
 #%%
 
@@ -204,10 +216,23 @@ rmse = MEAN_SQUARED_ERROR(y_pred, y_test)**.5
 r_squared = R_SQUARED(y_pred, y_test)
 
 
-print('\nCalculation Results:')
-print('\nMean Absolute Error :',mae)
-print('Mean Squred Error :',mse)
-print('Root Mean Squred Error :',rmse)
-print('R-Squred :',r_squared)
+print('\n\033[1;33;1mCalculation Results:\033[0m')
+print('\n\033[1;35;1mMean Absolute Error :\033[0m',mae)
+print('\033[1;35;1mMean Squred Error :\033[0m',mse)
+print('\033[1;35;1mRoot Mean Squred Error :\033[0m',rmse)
+print('\n\033[1;36;1mR-Squred :\033[0m',r_squared)
 print()
-#print('Score :',score(X_train, y_train))
+
+"""
+# =============================================================================
+# 
+# Calculation Results:
+# 
+# Mean Absolute Error : 0.1339474538298184
+# Mean Squred Error : 0.023832925571632694
+# Root Mean Squred Error : 0.15437916171437352
+# 
+# R-Squred : 0.9621545017375669
+# 
+# =============================================================================
+"""
